@@ -4,7 +4,7 @@ CC = g++
 
 INCLUDES = -I./include
 
-SRC =  main.cpp 
+SRC =  main.cpp Fixed.cpp
 
 CFLAGS = -Wall -Werror -Wextra -std=c++11 -fsanitize=address
 
