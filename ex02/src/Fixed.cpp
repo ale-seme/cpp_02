@@ -61,19 +61,25 @@ std::ostream &operator<<(std::ostream &out, const Fixed &f){
 	return (out);
 }
 
-int &Fixed::min(Fixed &Fixed1, Fixed &Fixed2){
-	return (Fixed1._fixedPoint > Fixed2._fixedPoint ? Fixed2._fixedPoint : Fixed1._fixedPoint);
+
+Fixed Fixed::operator+(const Fixed&other)
+{
+	return (Fixed(this->toFloat() + other.toFloat()));
 }
-const int &Fixed::min(const Fixed &Fixed1, const Fixed &Fixed2){
-	return (Fixed1._fixedPoint > Fixed2._fixedPoint ? Fixed2._fixedPoint : Fixed1._fixedPoint);
+
+Fixed Fixed::operator-(const Fixed &other)
+{
+	return (Fixed(this->toFloat() - other.toFloat()));
 }
-int &Fixed::max(Fixed &Fixed1, Fixed &Fixed2){
-	return (Fixed1._fixedPoint < Fixed2._fixedPoint ? Fixed2._fixedPoint : Fixed1._fixedPoint);
+
+Fixed Fixed::operator*(const Fixed &other){
+	return (Fixed(this->toFloat() * other.toFloat()));
 }
-const int &Fixed::max(const Fixed &Fixed1, const Fixed &Fixed2){
-	std::cout << "all the values involved:" << Fixed1._fixedPoint << std::endl;
-	
-	return (Fixed1._fixedPoint < Fixed2._fixedPoint ? Fixed2._fixedPoint : Fixed1._fixedPoint);
+
+Fixed Fixed::operator/(const Fixed &other){
+	if (other._fixedPoint == 0)
+		throw std::runtime_error("Division by zero");
+	return (Fixed(this->toFloat() / other.toFloat()));
 }
 
 bool Fixed::operator>(const Fixed& other){
@@ -98,4 +104,18 @@ bool Fixed::operator==(const Fixed& other){
 
 bool Fixed::operator!=(const Fixed& other){
 	return (_fixedPoint != other._fixedPoint);
+}
+
+
+Fixed &Fixed::min(Fixed &f1, Fixed &f2){
+	return (f1 > f2 ? f2 : f1);
+}
+const Fixed &Fixed::min(const Fixed &f1, const Fixed &f2){
+	return (f1 > f2 ? f2 : f1);
+}
+Fixed &Fixed::max(Fixed &f1, Fixed &f2){
+	return (f1 < f2 ? f2 : f1);
+}
+const Fixed &Fixed::max(const Fixed &f1, const Fixed &f2){
+	return (f1 < f2 ? f2 : f1);
 }

@@ -25,11 +25,16 @@ class Fixed{
 
 	Fixed(const Fixed &other);//copy constructor
 	Fixed &operator=(const Fixed &other);//operator = overload
+	Fixed operator+(const Fixed &other);
+	Fixed operator-(const Fixed &other);
+	Fixed operator*(const Fixed &other);
+	Fixed operator/(const Fixed &other);
+	
 	bool operator>(const Fixed &other);
 	bool operator<(const Fixed &other);
 	bool operator>=(const Fixed &other);
 	bool operator<=(const Fixed &other);
-	bool operator!= (const Fixed &other);
+	bool operator!=(const Fixed &other);
 	bool operator==(const Fixed &other);
 
 
@@ -41,11 +46,11 @@ class Fixed{
 	int getRawBits( void ) const;
 	void setRawBits( int const raw );
 
-	static int &min(Fixed &Fixed1, Fixed &Fixed2);
-	static const int &min(const Fixed &Fixed1, const Fixed &Fixed2);
+	static Fixed &min(Fixed &f1, Fixed &f2);
+	static const Fixed &min(const Fixed &f1, const Fixed &f2);
 
-	static int &max(Fixed &Fixed1, Fixed &Fixed2);
-	static const int &max(const Fixed &Fixed1, const Fixed &Fixed2); 
+	static Fixed &max(Fixed &f1, Fixed &f2);
+	static const Fixed&max(const Fixed &f1, const Fixed &f2); 
 
 	
 };
