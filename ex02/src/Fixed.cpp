@@ -61,6 +61,11 @@ std::ostream &operator<<(std::ostream &out, const Fixed &f){
 	return (out);
 }
 
+Fixed &Fixed::operator++(){
+	_fixedPoint++;
+	return (*this);
+}
+
 
 Fixed Fixed::operator+(const Fixed&other)
 {

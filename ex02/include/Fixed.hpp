@@ -25,6 +25,10 @@ class Fixed{
 
 	Fixed(const Fixed &other);//copy constructor
 	Fixed &operator=(const Fixed &other);//operator = overload
+	Fixed &operator++();
+	Fixed operator++(int);
+	Fixed &operator--();
+	Fixed operator--(int);
 	Fixed operator+(const Fixed &other);
 	Fixed operator-(const Fixed &other);
 	Fixed operator*(const Fixed &other);
