@@ -1,5 +1,6 @@
 #include "Fixed.hpp"
 #include <iostream>
+#include <limits>
 
 // Fixed a;
 // Fixed const b( 10 );
@@ -17,14 +18,48 @@
 
 
 int main( void ) {
+
+try {
 Fixed a;
-Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
+
+
+Fixed const b( Fixed( 5.05f ) * Fixed(__INT_MAX__) );
+
+std::cout << "value of b: " << b << std::endl;
+
+Fixed c = Fixed (3.3434f) / Fixed(4);
+
+Fixed d = c;
+
+Fixed e = c + d;
+
+Fixed f = e - d;
+    if (b >= c * 2)
+    std::cout << b << " >= " << c << std::endl;
+if (b > c)
+    std::cout << b << " > " << c << std::endl;
+if (b <= c)
+    std::cout << b << " <= " << c << std::endl;
+if (b < c)
+    std::cout << b << " < " << c << std::endl;
+if (b == c)
+    std::cout << b << " == " << c << std::endl;
+else if (b != c)
+    std::cout << b << " != " << c << std::endl;
+
+
 std::cout << a << std::endl;
 std::cout << ++a << std::endl;
 std::cout << a << std::endl;
 std::cout << a++ << std::endl;
-std::cout << a << std::endl;
-std::cout << b << std::endl;
-std::cout << Fixed::max( a, b ) << std::endl;
-return 0;
+
+std::cout << "The minimum between " << c << " and " << d << " is: " << Fixed::min(c, d) << std::endl;
+std::cout << "The maximum between " << c << " and " << d << " is: " << Fixed::max(c, d) << std::endl;
+}
+catch (const std::exception &e){
+    std::cerr << "Exception caught: " << e.what() << std::endl;
+    return 1;
+}
+return (0);
+
 }
