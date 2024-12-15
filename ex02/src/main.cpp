@@ -68,8 +68,10 @@ std::cout << g << std::endl;
 std::cout << g++ << std::endl;
 std::cout << g << std::endl;
 
-std::cout << "The minimum between " << i << " and " << d << " is: " << Fixed::min(i, l) << std::endl;
-std::cout << "The maximum between " << i << " and " << d << " is: " << Fixed::max(i, l) << std::endl;
+std::cout << h << std::endl;
+
+std::cout << "The minimum between " << g << " and " << h << " is: " << Fixed::min(g, h) << std::endl;
+std::cout << "The maximum between " << g << " and " << h << " is: " << Fixed::max(g, h) << std::endl;
 
 Fixed test1(5.01f);
 
