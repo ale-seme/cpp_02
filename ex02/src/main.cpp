@@ -1,6 +1,5 @@
 #include "Fixed.hpp"
 #include <iostream>
-#include <limits>
 
 // Fixed a;
 // Fixed const b( 10 );
@@ -23,7 +22,7 @@ try {
 Fixed a;
 
 
-Fixed const b( Fixed( 5.05f ) * Fixed(__INT_MAX__) );
+Fixed const b( Fixed( 5.2f ) * Fixed(__INT_MAX__) );
 
 std::cout << "value of b: " << b << std::endl;
 
