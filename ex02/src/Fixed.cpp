@@ -8,60 +8,47 @@ const int Fixed::_fractionalBits = 8;
 #define MIN_INT -2147483648 // -2^31
 
 // Default constructor
-Fixed::Fixed() : _fixedPoint(0) {
-    // std::cout << "Default constructor called" << std::endl;
-}
+Fixed::Fixed() : _fixedPoint(0) {}
 
 // Integer constructor (converts to fixed-point by bit-shifting)
 Fixed::Fixed(const int intValue) {
-    // Check for overflow before bit shifting
     if (intValue > (MAX_INT >> _fractionalBits) ||
         intValue < (MIN_INT >> _fractionalBits)) {
         throw std::overflow_error("Overflow in bit shift operation");
     }
     _fixedPoint = intValue << _fractionalBits;
-    // std::cout << "Int constructor called" << std::endl;
 }
 
 // Float constructor
 Fixed::Fixed(const float floatValue) {
-    // Check for overflow before converting
     if (floatValue > (MAX_INT / static_cast<float>(1 << _fractionalBits)) ||
         floatValue < (MIN_INT / static_cast<float>(1 << _fractionalBits))) {
         throw std::overflow_error("Overflow in float to fixed-point conversion");
     }
     _fixedPoint = static_cast<int>(roundf(floatValue * (1 << _fractionalBits)));
-    // std::cout << "Float constructor called" << std::endl;
 }
 
 // Copy constructor
-Fixed::Fixed(const Fixed &other) : _fixedPoint(other._fixedPoint) {
-    // std::cout << "Copy constructor called" << std::endl;
-}
+Fixed::Fixed(const Fixed &other) : _fixedPoint(other._fixedPoint) {}
 
 // Copy assignment operator
 Fixed &Fixed::operator=(const Fixed &other) {
     if (this != &other) {
         _fixedPoint = other._fixedPoint;
     }
-    // std::cout << "Copy assignment operator called" << std::endl;
     return *this;
 }
 
 // Destructor
-Fixed::~Fixed() {
-    // std::cout << "Destructor called" << std::endl;
-}
+Fixed::~Fixed() {}
 
 // Method that returns the fixedPoint value of the current object
 int Fixed::getRawBits(void) const {
-    // std::cout << "getRawBits member function called" << std::endl;
     return _fixedPoint;
 }
 
 // Method that sets the fixedPoint value with the received input
 void Fixed::setRawBits(int const raw) {
-    // std::cout << "setRawBits member function called" << std::endl;
     _fixedPoint = raw;
 }
 
@@ -105,7 +92,6 @@ bool Fixed::operator!=(const Fixed &other) const {
 }
 
 Fixed Fixed::operator+(const Fixed &other) const {
-    // Check for overflow
     if ((_fixedPoint > 0 && other._fixedPoint > 0 && _fixedPoint > MAX_INT - other._fixedPoint) ||
         (_fixedPoint < 0 && other._fixedPoint < 0 && _fixedPoint < MIN_INT - other._fixedPoint)) {
         throw std::overflow_error("Overflow in addition operation");
@@ -123,8 +109,8 @@ Fixed Fixed::operator-(const Fixed &other) const {
 }
 
 Fixed Fixed::operator*(const Fixed &other) const {
-    // Convert to float, multiply, and convert back to fixed-point
-    return Fixed(this->toFloat() * other.toFloat());
+    // Check for overflow
+    return Fixed(toFloat() * other.toFloat());
 }
 
 Fixed Fixed::operator/(const Fixed &other) const {

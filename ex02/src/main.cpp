@@ -58,7 +58,7 @@ std::cout << std::endl << "NOW ORIGINAL TEST FROM THE SUBJECT:" << std::endl << 
 
 
 Fixed g;
-Fixed const h(Fixed(5.05f ) * Fixed (2));
+Fixed const h(Fixed( 5.05f ) * Fixed (2));
 Fixed const i( 42.42f );
 Fixed const l( h );
 
