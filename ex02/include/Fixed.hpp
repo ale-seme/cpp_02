@@ -3,9 +3,6 @@
 #include <ostream>
 
 
-#define MAX_INT 2147483647 // 2^31 - 1
-#define MIN_INT -2147483648 // -2^31
-
 /*I need to create a class in Orthodox Canonical Form that represents a fixed-point-number
 
 Default constructor
@@ -35,10 +32,10 @@ class Fixed{
 	Fixed &operator--();
 	Fixed operator--(int);
 
-	Fixed operator+(const Fixed &other);
-	Fixed operator-(const Fixed &other);
-	Fixed operator*(const Fixed &other);
-	Fixed operator/(const Fixed &other);
+	Fixed operator+(const Fixed &other) const;
+	Fixed operator-(const Fixed &other) const ;
+	Fixed operator*(const Fixed &other) const ;
+	Fixed operator/(const Fixed &other) const ;
 	
 	bool operator>(const Fixed &other) const;
 	bool operator<(const Fixed &other) const;

@@ -1,15 +1,11 @@
 #include "Fixed.hpp"
 #include <iostream>
 #include <cmath>
-#include <limits>
-
-
-#include "Fixed.hpp"
-#include <iostream>
-#include <cmath>
 #include <stdexcept>
 
 const int Fixed::_fractionalBits = 8;
+#define MAX_INT 2147483647 // 2^31 - 1
+#define MIN_INT -2147483648 // -2^31
 
 // Default constructor
 Fixed::Fixed() : _fixedPoint(0) {
@@ -84,37 +80,58 @@ std::ostream &operator<<(std::ostream &out, const Fixed &f) {
     return out;
 }
 
-Fixed Fixed::operator+(const Fixed &other) {
+bool Fixed::operator>(const Fixed &other) const {
+    return _fixedPoint > other._fixedPoint;
+}
+
+bool Fixed::operator<(const Fixed &other) const {
+    return _fixedPoint < other._fixedPoint;
+}
+
+bool Fixed::operator>=(const Fixed &other) const {
+    return _fixedPoint >= other._fixedPoint;
+}
+
+bool Fixed::operator<=(const Fixed &other) const {
+    return _fixedPoint <= other._fixedPoint;
+}
+
+bool Fixed::operator==(const Fixed &other) const {
+    return _fixedPoint == other._fixedPoint;
+}
+
+bool Fixed::operator!=(const Fixed &other) const {
+    return _fixedPoint != other._fixedPoint;
+}
+
+Fixed Fixed::operator+(const Fixed &other) const {
     // Check for overflow
     if ((_fixedPoint > 0 && other._fixedPoint > 0 && _fixedPoint > MAX_INT - other._fixedPoint) ||
         (_fixedPoint < 0 && other._fixedPoint < 0 && _fixedPoint < MIN_INT - other._fixedPoint)) {
         throw std::overflow_error("Overflow in addition operation");
     }
-    return Fixed(this->toFloat() + other.toFloat());
+    return Fixed(this->_fixedPoint + other._fixedPoint);
 }
 
-Fixed Fixed::operator-(const Fixed &other) {
+Fixed Fixed::operator-(const Fixed &other) const {
     // Check for overflow
     if ((_fixedPoint > 0 && other._fixedPoint < 0 && _fixedPoint > MAX_INT + other._fixedPoint) ||
         (_fixedPoint < 0 && other._fixedPoint > 0 && _fixedPoint < MIN_INT + other._fixedPoint)) {
         throw std::overflow_error("Overflow in subtraction operation");
     }
-    return Fixed(this->toFloat() - other.toFloat());
+    return Fixed(this->_fixedPoint - other._fixedPoint);
 }
 
-Fixed Fixed::operator*(const Fixed &other) {
-    // Check for overflow
-    // if (_fixedPoint != 0 && other._fixedPoint != 0 &&
-    //     (std::abs(_fixedPoint) > MAX_INT / std::abs(other._fixedPoint))) {
-    //     throw std::overflow_error("Overflow in multiplication operation");
-    // }
+Fixed Fixed::operator*(const Fixed &other) const {
+    // Convert to float, multiply, and convert back to fixed-point
     return Fixed(this->toFloat() * other.toFloat());
 }
 
-Fixed Fixed::operator/(const Fixed &other) {
+Fixed Fixed::operator/(const Fixed &other) const {
     if (other._fixedPoint == 0) {
         throw std::runtime_error("Division by zero");
     }
+    // Convert to float, divide, and convert back to fixed-point
     return Fixed(this->toFloat() / other.toFloat());
 }
 
@@ -150,30 +167,6 @@ Fixed Fixed::operator--(int) {
     }
     _fixedPoint--;
     return temp;
-}
-
-bool Fixed::operator>(const Fixed &other) const {
-    return _fixedPoint > other._fixedPoint;
-}
-
-bool Fixed::operator<(const Fixed &other) const {
-    return _fixedPoint < other._fixedPoint;
-}
-
-bool Fixed::operator>=(const Fixed &other) const {
-    return _fixedPoint >= other._fixedPoint;
-}
-
-bool Fixed::operator<=(const Fixed &other) const {
-    return _fixedPoint <= other._fixedPoint;
-}
-
-bool Fixed::operator==(const Fixed &other) const {
-    return _fixedPoint == other._fixedPoint;
-}
-
-bool Fixed::operator!=(const Fixed &other) const {
-    return _fixedPoint != other._fixedPoint;
 }
 
 Fixed &Fixed::min(Fixed &f1, Fixed &f2) {
