@@ -2,6 +2,9 @@
 #include <iostream>
 #include <cmath>
 
+// Modern compilers like g++ or clang++ often apply an optimization called Copy Elision or Return Value Optimization (RVO), 
+// which avoids the creation of unnecessary copies
+
 const int Fixed::_fractionalBits = 8;
 
 //Default constructor
