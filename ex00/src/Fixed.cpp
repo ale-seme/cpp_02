@@ -20,7 +20,7 @@ if (this != &other)
 {
     _fixedPoint = other._fixedPoint;
 }
-std::cout << "Fixed Point Number assignment operator called!" << std::endl;
+std::cout << "Copy assignment operator called!" << std::endl;
 return (*this);
 }
 
