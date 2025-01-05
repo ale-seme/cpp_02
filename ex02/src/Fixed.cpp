@@ -52,12 +52,10 @@ void Fixed::setRawBits(int const raw) {
     _fixedPoint = raw;
 }
 
-// Method that transforms the fixed point to a float and returns its value
 float Fixed::toFloat(void) const {
     return static_cast<float>(_fixedPoint) / (1 << _fractionalBits);
 }
 
-// Method that returns the int value of the fixedPoint
 int Fixed::toInt(void) const {
     return _fixedPoint >> _fractionalBits;
 }
@@ -96,30 +94,38 @@ Fixed Fixed::operator+(const Fixed &other) const {
         (_fixedPoint < 0 && other._fixedPoint < 0 && _fixedPoint < MIN_INT - other._fixedPoint)) {
         throw std::overflow_error("Overflow in addition operation");
     }
-    return Fixed(this->_fixedPoint + other._fixedPoint);
+    Fixed result;
+    result.setRawBits(this->_fixedPoint + other._fixedPoint);
+    return result;
 }
 
 Fixed Fixed::operator-(const Fixed &other) const {
-    // Check for overflow
     if ((_fixedPoint > 0 && other._fixedPoint < 0 && _fixedPoint > MAX_INT + other._fixedPoint) ||
         (_fixedPoint < 0 && other._fixedPoint > 0 && _fixedPoint < MIN_INT + other._fixedPoint)) {
         throw std::overflow_error("Overflow in subtraction operation");
     }
-    return Fixed(this->_fixedPoint - other._fixedPoint);
+    Fixed result;
+    result.setRawBits(this->_fixedPoint - other._fixedPoint);
+    return result;
 }
 
 Fixed Fixed::operator*(const Fixed &other) const {
-    // Check for overflow
-    return Fixed(toFloat() * other.toFloat());
+    Fixed result;
+    result.setRawBits((this->_fixedPoint * other._fixedPoint) >> _fractionalBits);
+    return result;
 }
+
 
 Fixed Fixed::operator/(const Fixed &other) const {
     if (other._fixedPoint == 0) {
         throw std::runtime_error("Division by zero");
     }
-    // Convert to float, divide, and convert back to fixed-point
-    return Fixed(this->toFloat() / other.toFloat());
+    Fixed result;
+    // Scale up before division to maintain precision
+    result.setRawBits((this->_fixedPoint << _fractionalBits) / other._fixedPoint);
+    return result;
 }
+
 
 Fixed &Fixed::operator++() {
     if (_fixedPoint == MAX_INT) {
